@@ -18,7 +18,7 @@ Alternatively, you can use the Open in Colab browser extension ([Chrome](https:/
 
 ## Database structure
 
-### ERD diagram
+### Entity relationship diagram
 
 The following diagram shows the relationships between the main tables in the database.
 
@@ -58,7 +58,7 @@ erDiagram
 
     indicator_coverage {
         numeric checks 
-        integer collection_id PK 
+        integer collection_id PK,FK 
         jsonb fields 
         character_varying indicator PK 
         character_varying indicator_source PK 
@@ -88,9 +88,11 @@ erDiagram
     check_results }o--|| collection : "collection_id"
     collection_check }o--|| collection : "collection_id"
     field_counts }o--|| collection : "collection_id"
+    indicator_coverage }o--|| collection : "collection_id"
     project_fields }o--|| collection : "collection_id"
     projects }o--|| collection : "collection_id"
     run_collection }o--|| collection : "collection_id"
+
 ```
 
 ### Tables
@@ -274,7 +276,7 @@ Once approved, you can merge your changes yourself.
 1. Make your changes.
 2. Add or update [PostgreSQL comments](https://www.postgresql.org/docs/current/sql-comment.html) on new or changed tables and columns.
 3. Update any notebooks affected by your changes.
-4. Update the [ERD diagram](#erd-diagram) using [mermerd](https://github.com/KarnerTh/mermerd).
+4. Update the [entity relationship diagram](#entity-relationship-diagram) using [mermerd](https://github.com/KarnerTh/mermerd).
 5. Update the [table documentation](#tables), the [`psql`](https://www.postgresql.org/docs/current/app-psql.html) meta-commands `\dt+` (to list tables) and `\d+ table_name` (to list columns).
 
 ## Reviewing
