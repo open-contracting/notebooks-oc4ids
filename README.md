@@ -102,7 +102,7 @@ The following table lists all tables in the database. For information on the col
 | [collection](#collection)          | A collection is an OC4IDS dataset.                                                                                                                                                     |
 | [collection_check](#collection_check)    | libcoveoc4ids CLI output for each collection, i.e. the results reported by the OC4IDS Data Review Tool. For more information, see https://github.com/open-contracting/lib-cove-oc4ids/ |
 | [projects](#projects)            | Projects in OC4IDS JSON format.                                                                                                                                                        |
-| [field_counts](#field_counts)        | A count of the occurrences of each field in the data.                                                                                                                                  |
+| [field_counts](#field_counts)        | Counts of the occurrences of fields in each collection.                                                                                                                                  |
 | [project_fields](#project_fields)      | The fields present in each project.                                                                                                                                                    |
 | [check_results](#check_results)       | Results of running checks on data quality. For more information, see the quality criteria, checks and metrics notebook in https://github.com/open-contracting/notebooks-oc4ids         |
 | [run_collection](#run_collection)      | Relationships between collections and check runs.                                                                                                                                      |
@@ -118,9 +118,9 @@ The following table lists all tables in the database. For information on the col
 | Column       | Type                        | Description                                                                     |
 | ------------ | --------------------------- | ------------------------------------------------------------------------------- |
 | id           | integer                     | A unique identifier for this collection.                                        |
-| source_id    | text                        | A unique identifier for the OC4IDS publisher from which the data was collected. |
+| source_id    | text                        | The OC4IDS publisher from which the data was collected.                         |
 | data_version | timestamp without time zone | A timestamp of when the data was imported.                                      |
-| load_id      | character varying           | A unique identifer for a group of collections loaded together.                  |
+| load_id      | character varying           | An identifer for a group of collections loaded together.                        |
 
 #### collection_check
 
@@ -141,14 +141,14 @@ The following table lists all tables in the database. For information on the col
 
 #### field_counts
 
-| Column            | Type    | Description                                                                  |
-| ----------------- | ------- | ---------------------------------------------------------------------------- |
-| collection_id     | integer | The collection to which this count relates.                                  |
-| path              | text    | The JSON Pointer of the field to which this count relates.                   |
-| path_array        | text[]  | The components of the JSON Pointer of the field to which this count relates. |
-| object_property   | integer |                                                                              |
-| array_count       | integer |                                                                              |
-| distinct_projects | integer | The number of distinct projects in which the path appears.                   |
+| Column            | Type    | Description                                                                                                    |
+| ----------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| collection_id     | integer | The collection to which this count relates.                                                                    |
+| path              | text    | The JSON Pointer of the field to which this count relates, excluding array indices.                            |
+| path_array        | text[]  | The components of the JSON Pointer of the field to which this count relates.                                   |
+| object_property   | integer | The number of occurrences of the field, across all array entries and all releases.                             |                                                                          |
+| array_count       | integer | If the field is an array, the cumulative length of its occurrences, across all array entries and all releases. |                                                                          |
+| distinct_projects | integer | The number of distinct projects in which the path appears.                                                     |
 
 #### project_fields
 
@@ -162,52 +162,52 @@ The following table lists all tables in the database. For information on the col
 
 | Column        | Type              | Description                                                                                                                  |
 | ------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| run_id        | character varying | A unique identifier for the run in which this result was calculated.                                                         |
-| check_id      | character varying | A unique identifier for the check that this result relates to.                                                               |
+| run_id        | character varying | The run in which this result was calculated.                                                                                 |
+| check_id      | character varying | The check that this result relates to.                                                                                       |
 | result        | boolean           | The result of the check. TRUE represents success, FALSE represents failure and NULL indicates that no result was calculated. |
 | output        | jsonb             | The output of the check.                                                                                                     |
-| collection_id | integer           | The id of the collection to which this check result relates.                                                                 |
+| collection_id | integer           | The collection to which this check result relates.                                                                           |
 
 #### run_collection
 
-| Column        | Type              | Description                            |
-| ------------- | ----------------- | -------------------------------------- |
-| run_id        | character varying | A run to which the collection belongs. |
-| collection_id | integer           | A collection.                          |
-| id            | integer           | An identifier for the relationship.    |
+| Column        | Type              | Description                               |
+| ------------- | ----------------- | ----------------------------------------- |
+| run_id        | character varying | A run of data quality checks.             |
+| collection_id | integer           | A collection that was checked in the run. |
+| id            | integer           | A unique identifier for the relationship. |
 
 #### indicator_coverage
-
-| Column           | Type              | Description |
-| ---------------- | ----------------- | ----------- |
-| run_id           | character varying |             |
-| collection_id    | integer           |             |
-| indicator_source | character varying |             |
-| indicator        | character varying |             |
-| fields           | jsonb             |             |
-| successes        | numeric           |             |
-| checks           | numeric           |             |
+        
+| Column           | Type              | Description                                                   |
+| ---------------- | ----------------- | ------------------------------------------------------------- |
+| run_id           | character varying | The run in which this coverage result was calculated.         |
+| collection_id    | integer           | The collection to which this coverage result relates.         |
+| indicator_source | character varying | The source from which the indicator was drawn.                |
+| indicator        | character varying | The indicator to which this coverage result relates.          |
+| fields           | jsonb             | The fields needed to calculate the indicator.                 |
+| successes        | numeric           | A count of objects for which the indicator can be calculated. |
+| checks           | numeric           | The number of checks performed.                               |
 
 #### oc4ids_schema
 
-| Column           | Type | Description |
-| ---------------- | ---- | ----------- |
-| section          | text |             |
-| path             | text |             |
-| title            | text |             |
-| description      | text |             |
-| type             | text |             |
-| range            | text |             |
-| values           | text |             |
-| links            | text |             |
-| deprecated       | text |             |
-| deprecationnotes | text |             |
+| Column           | Type | Description                                                                                                                                                                                                                                             |
+| ---------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| section          | text | The first part of the JSON path to the field in the data, e.g. budget.                                                                                                                                                                                  |
+| path             | text | The JSON path to the field in the data, e.g. budget/description.                                                                                                                                                                                        |
+| title            | text | The field’s title in the JSON schema. If the field has no title, defaults to the field’s name followed by “*”.                                                                                                                                          |
+| description      | text | The field’s description in the JSON schema. URLs are removed (see the links column).                                                                                                                                                                    |
+| type             | text | A comma-separated list of the field’s type in the JSON schema, excluding “null”. If the field has no type, defaults to “unknown”.                                                                                                                       |
+| range            | text | The field’s allowed number of occurrences: “0..1” if the field defines an optional literal value, “0..n” if the field defines an optional array, “1..1” if the field defines a required literal value, or “1..n” if the field defines a required array. |
+| values           | text | If the field’s schema sets: format - the format; pattern - the pattern; enum - “Enum: “ followed by the enum as a comma-separated list, excluding null; items/enum - “Enum: “ followed by the items/enum as a comma-separated list, excluding null.     |
+| links            | text | The URLs extracted from the field’s description.                                                                                                                                                                                                        |
+| deprecated       | text | The OC4IDS minor version in which the field (or its parent) was deprecated.                                                                                                                                                                             |
+| deprecationnotes | text | The explanation for the deprecation of the field.                                                                                                                                                                                                       |
 
 #### registered_prefixes
 
-| Column | Type                  | Description |
-| ------ | --------------------- | ----------- |
-| prefix | character varying(50) | The prefix. |
+| Column | Type                  | Description                                                                                                                                      |
+| ------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| prefix | character varying(50) | A registered OC4IDS project prefix. For more information, see https://standard.open-contracting.org/infrastructure/latest/en/reference/prefixes/ |
 
 #### exchange_rates
 
@@ -219,15 +219,15 @@ The following table lists all tables in the database. For information on the col
 
 #### temp_data
 
-| Column | Type  | Description |
-| ------ | ----- | ----------- |
-| data   | jsonb |             |
+| Column | Type  | Description        |
+| ------ | ----- | ------------------ |
+| data   | jsonb | An OC4IDS dataset. |
 
 #### temp_checks
 
-| Column      | Type  | Description |
-| ----------- | ----- | ----------- |
-| cove_output | jsonb |        
+| Column      | Type  | Description                                |
+| ----------- | ----- | ------------------------------------------ |
+| cove_output | jsonb | The libcoveoc4ids output for a collection. |       
 
 ## Contributing
 
