@@ -99,21 +99,21 @@ erDiagram
 
 The following table lists all tables in the database. For information on the columns in each table, refer to the subheadings below the table.
 
-| Table                | Description                                                                                                                                                                            |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [collection](#collection)          | A collection is an OC4IDS dataset.                                                                                                                                                     |
-| [collection_check](#collection_check)    | libcoveoc4ids CLI output for each collection, i.e. the results reported by the OC4IDS Data Review Tool. For more information, see https://github.com/open-contracting/lib-cove-oc4ids/ |
-| [projects](#projects)            | Projects in OC4IDS JSON format.                                                                                                                                                        |
-| [field_counts](#field_counts)        | Counts of the occurrences of fields in each collection.                                                                                                                                  |
-| [project_fields](#project_fields)      | The fields present in each project.                                                                                                                                                    |
-| [check_results](#check_results)       | Results of running checks on data quality. For more information, see the quality criteria, checks and metrics notebook in https://github.com/open-contracting/notebooks-oc4ids         |
-| [run_collection](#run_collection)      | Relationships between collections and check runs.                                                                                                                                      |
-| [indicator_coverage](#indicator_coverage)  | Results of running checks on indicator coverage. That is, how often an indicator can be calcuated for a given collection.                                 |
-| [oc4ids_schema](#oc4ids_schema)       | A copy of the OC4IDS schema in 'mapping-sheet' format. For more information, see https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet                                |
+| Table                                       | Description                                                                                                                                                                            |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [collection](#collection)                   | A collection is an OC4IDS dataset.                                                                                                                                                     |
+| [collection_check](#collection_check)       | libcoveoc4ids CLI output for each collection, i.e. the results reported by the OC4IDS Data Review Tool. For more information, see https://github.com/open-contracting/lib-cove-oc4ids/ |
+| [projects](#projects)                       | Projects in OC4IDS JSON format.                                                                                                                                                        |
+| [field_counts](#field_counts)               | Counts of the occurrences of fields in each collection.                                                                                                                                |
+| [project_fields](#project_fields)           | The fields present in each project.                                                                                                                                                    |
+| [check_results](#check_results)             | Results of running checks on data quality. For more information, see the quality criteria, checks and metrics notebook in https://github.com/open-contracting/notebooks-oc4ids         |
+| [run_collection](#run_collection)           | Relationships between collections and check runs.                                                                                                                                      |
+| [indicator_coverage](#indicator_coverage)   | Results of running checks on indicator coverage. That is, how often an indicator can be calcuated for a given collection.                                                              |
+| [oc4ids_schema](#oc4ids_schema)             | A copy of the OC4IDS schema in 'mapping-sheet' format. For more information, see https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet                                |
 | [registered_prefixes](#registered_prefixes) | Registered OC4IDS project prefixes. From https://standard.open-contracting.org/infrastructure/latest/en/reference/prefixes/                                                            |
-| [exchange_rates](#exchange_rates)      | USD-base exchange rates for currency conversion.                                                                                                                                       |
-| [temp_data](#temp_data)           | A temporary table used when importing data.                                                                                                                                            |
-| [temp_checks](#temp_checks)         | A temporary table used for storing the libcoveoc4ids output when importing data.                                                                                                       |
+| [exchange_rates](#exchange_rates)           | USD-base exchange rates for currency conversion.                                                                                                                                       |
+| [temp_data](#temp_data)                     | A temporary table used when importing data.                                                                                                                                            |
+| [temp_checks](#temp_checks)                 | A temporary table used for storing the libcoveoc4ids output when importing data.                                                                                                       |
 
 #### collection
 
