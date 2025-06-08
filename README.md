@@ -24,7 +24,7 @@ Alternatively, you can use the Open in Colab browser extension ([Chrome](https:/
 
 The following diagram shows the relationships between the main tables in the database.
 
-Some tables are omitted from the diagram: those containing reference data used in checks ([`oc4ids_schema`](#oc4ids_schema), [`registered_prefixes`](#registered_prefixes) and [`exchange_rates`](#exchange_rates)) and those used to store temporary data as part of the import process ([`temp_data`](#temp_data) and [`temp_checks`](#temp_checks)).
+Some tables are omitted from the diagram: those containing reference data used in checks ([`oc4ids_schema`](#oc4ids_schema) and [`exchange_rates`](#exchange_rates)) and those used to store temporary data as part of the import process ([`temp_data`](#temp_data) and [`temp_checks`](#temp_checks)).
 
 ```mermaid
 erDiagram
@@ -112,7 +112,6 @@ The following table lists all tables in the database. For information on the col
 | [run_collection](#run_collection)           | Relationships between collections and check runs.                                                                                                                                      |
 | [indicator_coverage](#indicator_coverage)   | Results of running checks on indicator coverage. That is, how often an indicator can be calcuated for a given collection.                                                              |
 | [oc4ids_schema](#oc4ids_schema)             | A copy of the OC4IDS schema in 'mapping-sheet' format. For more information, see https://ocdskit.readthedocs.io/en/latest/cli/schema.html#mapping-sheet                                |
-| [registered_prefixes](#registered_prefixes) | Registered OC4IDS project prefixes. From https://standard.open-contracting.org/infrastructure/latest/en/reference/prefixes/                                                            |
 | [exchange_rates](#exchange_rates)           | USD-base exchange rates for currency conversion.                                                                                                                                       |
 | [temp_data](#temp_data)                     | A temporary table used when importing data.                                                                                                                                            |
 | [temp_checks](#temp_checks)                 | A temporary table used for storing the libcoveoc4ids output when importing data.                                                                                                       |
@@ -206,12 +205,6 @@ The following table lists all tables in the database. For information on the col
 | links            | text | The URLs extracted from the field’s description.                                                                                                                                                                                                        |
 | deprecated       | text | The OC4IDS minor version in which the field (or its parent) was deprecated.                                                                                                                                                                             |
 | deprecationnotes | text | The explanation for the deprecation of the field.                                                                                                                                                                                                       |
-
-#### registered_prefixes
-
-| Column | Type                  | Description                                                                                                                                      |
-| ------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| prefix | character varying(50) | A registered OC4IDS project prefix. For more information, see https://standard.open-contracting.org/infrastructure/latest/en/reference/prefixes/ |
 
 #### exchange_rates
 
